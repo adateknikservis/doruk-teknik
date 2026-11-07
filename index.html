@@ -24,8 +24,14 @@
 .lower h2{border-left:5px solid var(--red);padding-left:10px;font-size:19px}
 .cta{border-radius:12px;padding:16px 22px;margin-bottom:26px}
 .footer{padding:22px 0}
-/* Hide a Netlify badge if one is injected into the page. */
-#netlify-badge,.netlify-badge,[data-netlify-badge],iframe[src*="netlify.com/badge"]{display:none!important;visibility:hidden!important}
+/* Hide externally injected Netlify branding/badges. */
+#netlify-badge,.netlify-badge,[data-netlify-badge],
+iframe[src*="netlify" i],a[href*="netlify.com" i],
+a[aria-label*="netlify" i],a[title*="netlify" i],
+[id*="netlify" i],[class*="netlify" i],[data-testid*="netlify" i]{
+  display:none!important;visibility:hidden!important;opacity:0!important;
+  pointer-events:none!important;width:0!important;height:0!important;
+}
 @media(max-width:620px){.hero-reference img{max-height:none;object-fit:contain}.service-photo{height:100px}.section{padding:28px 0}}
 
 </style></head>
@@ -40,4 +46,21 @@
 <section class="cta" id="iletisim"><div><h2>Beyaz eşyanız arızalandı mı?</h2><p>Servis ve onarım hakkında bilgi almak için Doruk Teknik'i arayın.</p></div><div class="cta-actions"><a class="red" href="tel:+905458661016">☎ 0545 866 10 16</a><a class="green" href="https://wa.me/905458661016">WhatsApp ile Ulaşın</a></div></section></main>
 <footer class="footer"><div class="wrap"><div class="foot-in"><div><div class="brand" style="color:#fff"><span class="brand-mark" style="background:#fff;color:#07366f">⚙</span><span style="color:#fff">DORUK <span>TEKNİK</span><small style="color:#d2e2f3">Beyaz Eşya Teknik Servisi – Bursa</small></span></div><p>Bursa beyaz eşya teknik servis ve onarım desteği.</p></div><div class="foot-links"><a href="#anasayfa">Anasayfa</a><a href="#hizmetler">Hizmetler</a><a href="#markalar">Markalar</a><a href="#sss">Sık Sorulan Sorular</a></div><div><b>İletişim</b><p>☎ 0545 866 10 16<br>WhatsApp Destek<br>⌖ Bursa</p></div></div><div class="copyright">© 2026 Doruk Teknik • Bursa Beyaz Eşya Teknik Servisi</div></div></footer>
 <a class="mobile-call" href="tel:+905458661016">☎ HEMEN ARA • 0545 866 10 16</a>
+<script>
+(function(){
+  function removeNetlifyBadge(){
+    document.querySelectorAll('a,iframe,[id],[class],[data-netlify-badge]').forEach(function(el){
+      var href=(el.getAttribute('href')||'')+' '+(el.getAttribute('src')||'');
+      var label=(el.getAttribute('aria-label')||'')+' '+(el.getAttribute('title')||'');
+      var text=(el.innerText||el.textContent||'').trim();
+      if(/netlify\.com/i.test(href)||/netlify/i.test(label)||(/powered by netlify/i.test(text)&&text.length<100)){
+        el.style.setProperty('display','none','important');
+        el.style.setProperty('visibility','hidden','important');
+      }
+    });
+  }
+  removeNetlifyBadge();
+  new MutationObserver(removeNetlifyBadge).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
 </body></html>
