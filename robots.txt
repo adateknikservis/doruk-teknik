@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://dorukteknik16.com.tr/sitemap.xml
